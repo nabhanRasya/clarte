@@ -1,0 +1,50 @@
+import Logo from "../../assets/logo.svg";
+import Iridescence from "@/components/Iridescence";
+
+function WelcomeLayout({ children }) {
+  return (
+    <div className="min-h-screen w-full relative bg-slate-900 overflow-hidden">
+      <div className="absolute inset-0 z-10 pointer-events-none23">
+        <Iridescence />
+      </div>
+      <div
+        className="absolute inset-0 z-10"
+        style={{
+          background: `
+          radial-gradient(circle at 50% 100%, oklch(16.489% 0.03526 281.831 / 0.4) 0%, transparent 60%),
+          radial-gradient(circle at 50% 100%, oklch(16.489% 0.03526 281.831 / 0.4) 0%, transparent 70%),
+          radial-gradient(circle at 50% 100%, oklch(16.489% 0.03526 281.831 / 0.5) 0%, transparent 80%)
+      `,
+        }}
+      />
+      <div className="absolute inset-y-10 flex flex-col items-start justify-start w-full px-8 z-10">
+        <img src={Logo} alt="" className="w-14 h-14" />
+      </div>
+      <div className="flex flex-col items-start justify-end w-full min-h-screen px-8 py-10">
+        <div className="children w-full z-10">
+          {children}
+          <footer className="w-full mt-8">
+            <div
+              className="w-full mx-auto text-center leading-relaxed text-muted"
+              style={{ fontSize: "0.6125rem" }}
+            >
+              <p className="mb-1">
+                By continuing, you agree to our{" "}
+                <span className="underline underline-offset-2">Terms</span> and{" "}
+                <span className="underline underline-offset-2">
+                  Privacy Policy
+                </span>
+                .
+              </p>
+              <p className="mb-1">
+                Powered by AI — designed to understand your skin.
+              </p>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default WelcomeLayout;
