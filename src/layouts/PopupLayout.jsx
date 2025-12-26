@@ -1,5 +1,5 @@
-import WelcomeButton from "@/components/WelcomeButton";
-import RegisterButton from "@/components/RegisterButtom";
+import { useAuth0 } from "@auth0/auth0-react";
+import PopupButton from "@/components/PopupButton";
 import LogoColor from "@/assets/logo-color.svg";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
 import {
@@ -8,12 +8,28 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 
-function RegisterLayout({ welcomeTitle, title, description, variant }) {
+function PopupLayout({ welcomeTitle, title, description, classVariant }) {
+  const { isLoading, error, loginWithRedirect: login } = useAuth0();
+
+  switch (login === "Get Started") {
+    case value:
+      
+      break;
+  
+    default:
+      break;
+  }
+
   return (
     <Drawer>
-      <WelcomeButton variant={`${variant}`}>{welcomeTitle}</WelcomeButton>
+      <DrawerTrigger
+        className={`rounded-3xl ${classVariant} py-3 w-full font-medium text-md`}
+      >
+        {welcomeTitle}
+      </DrawerTrigger>
       <DrawerContent className="max-w-full">
         <AnimatedGroup
           className="flex flex-col w-full"
@@ -42,13 +58,13 @@ function RegisterLayout({ welcomeTitle, title, description, variant }) {
             },
           }}
         >
-          <DrawerHeader className="space-y-2">
+          <DrawerHeader className="pt-8">
             <DrawerTitle className="w-fit">
-              <div className="p-4 bg-gray-200 rounded-full">
+              <div className="p-3 bg-[#e9d8fd] rounded-full">
                 <img src={LogoColor} alt="Logo" className="w-10 h-10" />
               </div>
             </DrawerTitle>
-            <DrawerTitle className="mt-2 text-3xl text-start font-bold text-foreground">
+            <DrawerTitle className="mt-3 text-2xl text-start font-bold text-foreground">
               {title}
               {/* Get Started */}
             </DrawerTitle>
@@ -57,40 +73,33 @@ function RegisterLayout({ welcomeTitle, title, description, variant }) {
               {/* Create your account to start your skin analysis journey. */}
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col w-full gap-3 mb-12 mt-4 p-3">
+          <div className="flex flex-col w-full gap-2 mb-12 p-2">
             <div className="w-full">
-              <RegisterButton rounded="rounded-xl">
-                Continue with Email
-              </RegisterButton>
+              <PopupButton>Continue with Email</PopupButton>
             </div>
             <div className="w-full">
-              <RegisterButton
-                variant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                rounded="rounded-xl"
-              >
+              <PopupButton classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80">
                 Continue with Phone
-              </RegisterButton>
+              </PopupButton>
             </div>
-            <div className="flex w-full gap-3">
+            <div className="flex w-full gap-2">
               <div className="w-full">
-                <RegisterButton
+                <PopupButton
                   className="w-full"
-                  variant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  rounded="rounded-xl"
+                  classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
                   size="icon"
                 >
-                  <i className="bi bi-google"></i>
-                </RegisterButton>
+                  <i className="bi bi-google text-xl"></i>
+                </PopupButton>
               </div>
               <div className="w-full">
-                <RegisterButton
+                <PopupButton
                   className="w-full"
-                  variant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  rounded="rounded-xl"
+                  classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
                   size="icon"
                 >
                   <i className="bi bi-apple text-2xl"></i>
-                </RegisterButton>
+                </PopupButton>
               </div>
             </div>
           </div>
@@ -100,4 +109,4 @@ function RegisterLayout({ welcomeTitle, title, description, variant }) {
   );
 }
 
-export default RegisterLayout;
+export default PopupLayout;

@@ -1,5 +1,6 @@
-import Logo from "../../assets/logo.svg";
+import Logo from "@/assets/logo.svg";
 import Iridescence from "@/components/Iridescence";
+import { TextLoop } from "@/components/motion-primitives/text-loop";
 
 function WelcomeLayout({ children }) {
   return (
@@ -22,6 +23,24 @@ function WelcomeLayout({ children }) {
       </div>
       <div className="flex flex-col items-start justify-end w-full min-h-screen px-8 py-10">
         <div className="children w-full z-10">
+          <div className="title mb-12 flex flex-col items-start gap-1.5">
+            <div className="flex justify-center">
+              <span className="text-4xl font-extrabold text-secondary">
+                clarte
+              </span>
+              <img src={Logo} alt="Logo" className="w-5 h-5" />
+            </div>
+            <TextLoop className="text-lg text-secondary font-bold">
+              <span>Analyze my skin</span>
+              <span>Recommend skincare routine</span>
+              <span>Track my skin progress</span>
+              <span>Suggest the right product</span>
+            </TextLoop>
+
+            {/* <h1 className="text-2xl text-secondary font-bold">
+                    <span>Analyze my skin Lorem ipsum dolor sit. Lorem, ipsum.</span>
+                  </h1> */}
+          </div>
           {children}
           <footer className="w-full mt-8">
             <div
