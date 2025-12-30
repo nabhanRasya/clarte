@@ -10,18 +10,49 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function PopupLayout({ welcomeTitle, title, description, classVariant }) {
-  const { isLoading, error, loginWithRedirect: login } = useAuth0();
+  const { error, loginWithRedirect: login } = useAuth0();
+  const [status, setStatus] = useState("idle");
 
-  switch (login === "Get Started") {
-    case value:
-      
-      break;
-  
-    default:
-      break;
-  }
+  const EmailLogin = () =>
+    login({
+      authorizationParams: {
+        connection: "Username-Password-Authentication",
+      },
+    });
+
+  const EmailSignup = () =>
+    login({
+      authorizationParams: {
+        connection: "Username-Password-Authentication",
+        screen_hint: "signup",
+      },
+    });
+
+  const ContinueWithGoogle = () =>
+    login({
+      authorizationParams: {
+        connection: "google-oauth2",
+      },
+    });
+
+  const ContinueWithMicrosoft = () =>
+    login({
+      authorizationParams: {
+        connection: "windowslive",
+      },
+    });
+
+  const LoadingStatus = () => setStatus("loading");
+
+  useEffect(() => {
+    if (error) {
+      setStatus("error");
+    }
+  }, [error]);
 
   return (
     <Drawer>
@@ -58,50 +89,65 @@ function PopupLayout({ welcomeTitle, title, description, classVariant }) {
             },
           }}
         >
-          <DrawerHeader className="pt-8">
-            <DrawerTitle className="w-fit">
-              <div className="p-3 bg-[#e9d8fd] rounded-full">
-                <img src={LogoColor} alt="Logo" className="w-10 h-10" />
+          <div>
+            <DrawerHeader className="pt-8">
+              <DrawerTitle className="w-fit">
+                <div className="p-3 bg-[#e9d8fd] rounded-full">
+                  <img src={LogoColor} alt="Logo" className="w-10 h-10" />
+                </div>
+              </DrawerTitle>
+              <DrawerTitle className="mt-3 text-2xl text-start font-bold text-foreground">
+                {title}
+              </DrawerTitle>
+              <DrawerDescription className="text-md">
+                {description}
+              </DrawerDescription>
+            </DrawerHeader>
+            {status === "idle" && (
+              <form
+                onSubmit={LoadingStatus}
+                className="flex flex-col w-full gap-2 mb-12 p-2"
+              >
+                <div className="w-full">
+                  <PopupButton
+                    type="submit"
+                    onClick={title === "Log In" ? EmailLogin : EmailSignup}
+                  >
+                    Continue with Email
+                  </PopupButton>
+                </div>
+                <div className="flex w-full gap-2">
+                  <div className="w-full">
+                    <PopupButton
+                      type="submit"
+                      onClick={() => ContinueWithGoogle()}
+                      className="w-full"
+                      classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                      size="icon"
+                    >
+                      <i className="bi bi-google text-xl"></i>
+                    </PopupButton>
+                  </div>
+                  <div className="w-full">
+                    <PopupButton
+                      type="submit"
+                      onClick={() => ContinueWithMicrosoft()}
+                      className="w-full"
+                      classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                      size="icon"
+                    >
+                      <i className="bi bi-microsoft text-xl"></i>
+                    </PopupButton>
+                  </div>
+                </div>
+              </form>
+            )}
+
+            {status === "error" && (
+              <div className="flex h-[11.5rem] w-full items-center justify-center bg-gray-100">
+                <p>{error.message}</p>
               </div>
-            </DrawerTitle>
-            <DrawerTitle className="mt-3 text-2xl text-start font-bold text-foreground">
-              {title}
-              {/* Get Started */}
-            </DrawerTitle>
-            <DrawerDescription className="text-md">
-              {description}
-              {/* Create your account to start your skin analysis journey. */}
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="flex flex-col w-full gap-2 mb-12 p-2">
-            <div className="w-full">
-              <PopupButton>Continue with Email</PopupButton>
-            </div>
-            <div className="w-full">
-              <PopupButton classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                Continue with Phone
-              </PopupButton>
-            </div>
-            <div className="flex w-full gap-2">
-              <div className="w-full">
-                <PopupButton
-                  className="w-full"
-                  classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  size="icon"
-                >
-                  <i className="bi bi-google text-xl"></i>
-                </PopupButton>
-              </div>
-              <div className="w-full">
-                <PopupButton
-                  className="w-full"
-                  classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                  size="icon"
-                >
-                  <i className="bi bi-apple text-2xl"></i>
-                </PopupButton>
-              </div>
-            </div>
+            )}
           </div>
         </AnimatedGroup>
       </DrawerContent>

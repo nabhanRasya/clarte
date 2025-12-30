@@ -1,43 +1,32 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 
 // layouts
-import AppLayout from "../layouts/AppLayout";
+import MainLayout from "../layouts/MainLayout";
 
 // pages
 import WelcomePage from "../pages/app/welcome-page";
 import NotFound from "../pages/NotFound";
-
-// auth - register
-import PhoneRegister from "@/pages/app/auth/register/phone-register";
-import EmailRegister from "@/pages/app/auth/register/email-register";
-import GoogleRegister from "@/pages/app/auth/register/google-register";
-import AppleRegister from "@/pages/app/auth/register/apple-register";
-
-// auth - login
-import PhoneLogin from "@/pages/app/auth/login/phone-login";
-import EmailLogin from "@/pages/app/auth/login/email-login";
-import GoogleLogin from "@/pages/app/auth/login/google-login";
-import AppleLogin from "@/pages/app/auth/login/apple-login";
+import LandingPage from "@/pages/landing-page";
+import HomePage from "@/pages/app/home-page";
+import ScanPage from "@/pages/app/scan-page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: <MainLayout />,
     children: [
-      // landing
-      { index: true, element: <WelcomePage /> },
-
-      // auth - register
-      { path: "register/phone", element: <PhoneRegister /> },
-      { path: "register/email", element: <EmailRegister /> },
-      { path: "register/google", element: <GoogleRegister /> },
-      { path: "register/apple", element: <AppleRegister /> },
-
-      // auth - login
-      { path: "login/phone", element: <PhoneLogin /> },
-      { path: "login/email", element: <EmailLogin /> },
-      { path: "login/google", element: <GoogleLogin /> },
-      { path: "login/apple", element: <AppleLogin /> },
+      {
+        index: true,
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "/designed-to-understand-your-skin", element: <LandingPage /> },
+      { path: "/authentication", element: <WelcomePage /> },
+      { path: "/scan", element: <ScanPage /> },
     ],
   },
 

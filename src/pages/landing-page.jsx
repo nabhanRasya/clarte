@@ -1,5 +1,7 @@
+import { Link } from "react-router";
+
 function LandingPage() {
-  return <h1>Landing Page</h1>;
+  return <Link to="/">signup</Link>;
 }
 
 export default LandingPage;
