@@ -1,13 +1,10 @@
+import ScanCamera from "@/components/ScanCamera";
+
 function ScanPage() {
   return (
-    <button
-      onClick={() =>
-        logout({ logoutParams: { returnTo: window.location.origin } })
-      }
-      className="button logout"
-    >
-      Log Out
-    </button>
+    <>
+      <ScanCamera />
+    </>
   );
 }
 

@@ -10,43 +10,50 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 function PopupLayout({ welcomeTitle, title, description, classVariant }) {
   const { error, loginWithRedirect: login } = useAuth0();
   const [status, setStatus] = useState("idle");
+  const [isLoading, setIsLoading] = useState("");
 
-  const EmailLogin = () =>
+  const EmailLogin = (e) => {
+    setIsLoading(e.target.textContent);
     login({
       authorizationParams: {
         connection: "Username-Password-Authentication",
       },
     });
+  };
 
-  const EmailSignup = () =>
+  const EmailSignup = (e) => {
+    setIsLoading(e.target.textContent);
     login({
       authorizationParams: {
         connection: "Username-Password-Authentication",
         screen_hint: "signup",
       },
     });
+  };
 
-  const ContinueWithGoogle = () =>
+  const ContinueWithGoogle = (e) => {
+    setIsLoading(e.target.className.includes("google"));
     login({
       authorizationParams: {
         connection: "google-oauth2",
       },
     });
+  };
 
-  const ContinueWithMicrosoft = () =>
+  const ContinueWithMicrosoft = (e) => {
+    setIsLoading(e.target.tagName === "I");
     login({
       authorizationParams: {
         connection: "windowslive",
       },
     });
-
-  const LoadingStatus = () => setStatus("loading");
+  };
 
   useEffect(() => {
     if (error) {
@@ -89,14 +96,9 @@ function PopupLayout({ welcomeTitle, title, description, classVariant }) {
             },
           }}
         >
-          <div>
-            <DrawerHeader className="pt-8">
-              <DrawerTitle className="w-fit">
-                <div className="p-3 bg-[#e9d8fd] rounded-full">
-                  <img src={LogoColor} alt="Logo" className="w-10 h-10" />
-                </div>
-              </DrawerTitle>
-              <DrawerTitle className="mt-3 text-2xl text-start font-bold text-foreground">
+          <div className="pt-5">
+            <DrawerHeader className="flex gap-y-2">
+              <DrawerTitle className="text-3xl text-start font-bold text-foreground">
                 {title}
               </DrawerTitle>
               <DrawerDescription className="text-md">
@@ -104,33 +106,35 @@ function PopupLayout({ welcomeTitle, title, description, classVariant }) {
               </DrawerDescription>
             </DrawerHeader>
             {status === "idle" && (
-              <form
-                onSubmit={LoadingStatus}
-                className="flex flex-col w-full gap-2 mb-12 p-2"
-              >
+              <div className="flex flex-col w-full gap-2 mb-12 p-2">
                 <div className="w-full">
                   <PopupButton
-                    type="submit"
                     onClick={title === "Log In" ? EmailLogin : EmailSignup}
                   >
-                    Continue with Email
+                    {isLoading == "Continue With Email" ? (
+                      <Spinner />
+                    ) : (
+                      "Continue With Email"
+                    )}
                   </PopupButton>
                 </div>
-                <div className="flex w-full gap-2">
+                <div className="flex w-full gap-2.5">
                   <div className="w-full">
                     <PopupButton
-                      type="submit"
                       onClick={() => ContinueWithGoogle()}
-                      className="w-full"
+                      className="w-full google"
                       classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       size="icon"
                     >
-                      <i className="bi bi-google text-xl"></i>
+                      {isLoading === "google" ? (
+                        <Spinner />
+                      ) : (
+                        <i className="bi bi-google text-xl"></i>
+                      )}
                     </PopupButton>
                   </div>
                   <div className="w-full">
                     <PopupButton
-                      type="submit"
                       onClick={() => ContinueWithMicrosoft()}
                       className="w-full"
                       classVariant="bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -140,7 +144,7 @@ function PopupLayout({ welcomeTitle, title, description, classVariant }) {
                     </PopupButton>
                   </div>
                 </div>
-              </form>
+              </div>
             )}
 
             {status === "error" && (

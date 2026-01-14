@@ -25,7 +25,9 @@ function WelcomeLayout({ children }) {
         <div className="children w-full z-10">
           <div className="title mb-12 flex flex-col items-start gap-1.5">
             <div className="flex justify-center">
-              <span className="text-4xl font-extrabold text-accent">Cora</span>
+              <span className="text-4xl font-extrabold text-secondary">
+                Cora
+              </span>
               <img src={Logo} alt="Logo" className="w-5 h-5" />
             </div>
             <TextLoop className="text-lg text-accent font-bold">
@@ -44,11 +46,11 @@ function WelcomeLayout({ children }) {
             <div className="w-full mx-auto text-center leading-relaxed text-muted text-[0.5rem] font-thin tracking-wide">
               <p className="mb-1">
                 By continuing, you agree to our{" "}
-                <span className="underline underline-offset-2 font-medium">
+                <span className="underline underline-offset-2 font-bold">
                   Terms
                 </span>{" "}
                 and{" "}
-                <span className="underline underline-offset-2 font-medium">
+                <span className="underline underline-offset-2 font-bold">
                   Privacy Policy
                 </span>
                 .
